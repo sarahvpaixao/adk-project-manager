@@ -1,12 +1,14 @@
 from google.adk.agents import Agent
 
-from ..tools.integrations.jira import create_jira_epic
 from app.instructions import EPIC_CREATOR_INSTRUCTIONS
+from ..tools.integrations.jira import create_jira_epic
+
+from app.config.models import EPIC_CREATOR_MODEL
 
 
 epic_creator = Agent(
     name="epic_creator",
-    model="gemini-2.5-flash",
+    model=EPIC_CREATOR_MODEL,
     instruction=EPIC_CREATOR_INSTRUCTIONS,
     tools=[
         create_jira_epic
