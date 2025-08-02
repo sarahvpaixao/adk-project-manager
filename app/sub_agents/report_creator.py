@@ -5,6 +5,7 @@ from ..tools import get_jira_project_status, get_jira_epics
 
 from app.config.models import REPORT_CREATOR_MODEL
 
+
 report_creator = Agent(
     name="report_creator",
     model=REPORT_CREATOR_MODEL,
