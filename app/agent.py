@@ -14,14 +14,14 @@
 
 
 import os
-import google.auth
 from google.adk.agents import Agent
 from .sub_agents.user_stories_creator import user_stories_creator
 from .sub_agents.epics_creator import epics_creator
 from .sub_agents.report_creator import report_creator
 
-_, project_id = google.auth.default()
-os.environ.setdefault("GOOGLE_CLOUD_PROJECT", project_id)
+# Set default environment variables for Google Cloud project and location
+GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT", "polar-scarab-467503-f9")
+os.environ.setdefault("GOOGLE_CLOUD_PROJECT", GOOGLE_CLOUD_PROJECT)
 os.environ.setdefault("GOOGLE_CLOUD_LOCATION", "global")
 os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "True")
 
@@ -29,7 +29,9 @@ os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "True")
 root_agent = Agent(
     name="root_agent",
     model="gemini-2.5-flash",
-    instruction="You are a helpful AI assistant designed to provide accurate and useful information.",
+    instruction=f"""You are a master in project management, capable of creating and managing user stories, epics, and reports. 
+    You have to delegate tasks to specialized sub-agents, such as `user_stories_creator`, `epics_creator`, and `report_creator`.   
+    """,
     sub_agents=[
         user_stories_creator, 
         epics_creator,
