@@ -5,10 +5,12 @@ Ele funciona com integração ao Jira, criando diretamente no projeto o que foi 
 Ele também cria Relatórios de Épicos e tarefas já existentes, facilitando o report do final do dia :)
 
 Para usá-lo corretamente é necessário:
-Seu ID do projeto do Google
-Seu email do Google
+### Google
+- Seu ID do projeto do Google
+- Seu email do Google
 
-Sua URL do Jira
-Seu email do Jira
-Sua API do Jira
-e a Key do seu projeto
+### Jira
+- Sua URL do Jira
+- Seu email do Jira
+- Sua API do Jira
+- e a Key do seu projeto
