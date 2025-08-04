@@ -8,9 +8,12 @@ and dedicated tool sets.
 from .epic_creator import epic_creator
 from .tasks_creator import tasks_creator
 from .report_creator import report_creator
+from .issue_updater import issue_updater 
+
 
 __all__ = [
     "epic_creator",
     "tasks_creator", 
-    "report_creator"
+    "report_creator",
+    "issue_updater"
 ]

@@ -117,6 +117,12 @@ Este prompt testa o `tasks_creator`. Para um melhor resultado, use-o após a cri
 
 > "Para o épico de 'Pagamento via Pix', crie as seguintes tarefas: 'Desenvolver a interface de seleção de Pix', 'Implementar a chamada para a API do banco para gerar o QR Code' e 'Criar o serviço de webhook para receber a confirmação de pagamento'."
 
+### Para Atualizar um Issue
+
+Este prompt testa a funcionalidade do `issue_updater`.
+
+> "Preciso atualizar o issue ADK-18. Por favor, altere o título para 'Implementação Final da API de Pagamentos' e atualize a descrição para 'A nova descrição deve refletir a conclusão dos testes de integração'."
+
 ### Para Gerar um Relatório
 
 Teste o `report_creator` com um prompt como este:

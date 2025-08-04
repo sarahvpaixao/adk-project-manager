@@ -6,6 +6,7 @@ from app.instructions import ROOT_INSTRUCTIONS
 from .sub_agents.epic_creator import epic_creator
 from .sub_agents.tasks_creator import tasks_creator
 from .sub_agents.report_creator import report_creator
+from .sub_agents.issue_updater import issue_updater
 
 _, project_id = google.auth.default()
 GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT", project_id)
@@ -21,7 +22,8 @@ root_agent = Agent(
     sub_agents=[
         epic_creator,
         tasks_creator,
-        report_creator
+        report_creator,
+        issue_updater
     ],
     description="Root agent for project management tasks, coordinating sub-agents to create epics, tasks, and reports in Jira."
 )

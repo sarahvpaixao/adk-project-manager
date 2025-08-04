@@ -12,12 +12,14 @@ from .integrations.jira import (
     create_jira_epic,
     get_jira_epics,
     create_jira_task,
-    get_jira_project_status
+    get_jira_project_status,
+    update_jira_issue
 )
 
 __all__ = [
     'create_jira_epic',
     'get_jira_epics', 
     'create_jira_task',
-    'get_jira_project_status'
+    'get_jira_project_status',
+    'update_jira_issue'
 ]

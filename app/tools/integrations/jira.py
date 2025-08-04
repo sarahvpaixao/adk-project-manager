@@ -451,6 +451,30 @@ class JiraClient:
                 reverse=True
             )[:10] if recent_updates else []
         }
+    
+    def update_issue(self, issue_key: str, fields: Dict[str, Any], timeout: int = 15) -> None:
+        """Update an existing issue in Jira.
+        
+        Sends a PUT request to the Jira API to update an issue with the
+        provided fields.
+        
+        Args:
+            issue_key: The key of the issue to update (e.g., 'ADK-123').
+            fields: Dictionary containing the fields to update.
+            timeout: Request timeout in seconds.
+            
+        Raises:
+            requests.exceptions.RequestException: When API request fails.
+        """
+        api_endpoint = f"{self.config.url}/rest/api/2/issue/{issue_key}"
+        payload = {"fields": fields}
+        response = requests.put(
+            api_endpoint, 
+            data=json.dumps(payload), 
+            headers=self.headers, 
+            timeout=timeout
+        )
+        response.raise_for_status()
 
 
 def create_jira_epic(summary: str, description: str, project_key: str) -> str:
@@ -513,7 +537,6 @@ def create_jira_epic(summary: str, description: str, project_key: str) -> str:
         error_message = f"Erro inesperado: {e}"
         print(f"    [Tool Error] {error_message}")
         return error_message
-
 
 def get_jira_epics(project_key: str) -> str:
     """Retrieve all epics from a Jira project.
@@ -587,7 +610,6 @@ def get_jira_epics(project_key: str) -> str:
         print(f"    [Tool Error] {error_message}")
         return error_message
 
-
 def create_jira_task(summary: str, description: str, project_key: str, 
                     epic_key: Optional[str] = None) -> str:
     """Create a Task issue in Jira with optional epic linkage.
@@ -655,7 +677,6 @@ def create_jira_task(summary: str, description: str, project_key: str,
         error_message = f"Erro inesperado: {e}"
         print(f"    [Tool Error] {error_message}")
         return error_message
-
 
 def get_jira_project_status(project_key: str, days_back: int = 7) -> str:
     """Get comprehensive project status report from Jira.
@@ -774,4 +795,63 @@ def get_jira_project_status(project_key: str, days_back: int = 7) -> str:
         error_message = f"Erro inesperado: {e}"
         print(f"    [Tool Error] {error_message}")
         return error_message
+
+def update_jira_issue(issue_key: str, summary: Optional[str] = None, description: Optional[str] = None) -> str:
+    """Update an existing issue in Jira (summary or description).
     
+    This tool allows updating the summary and/or description of a specific
+    Jira issue.
+    
+    Args:
+        issue_key: The key of the issue to update (e.g., 'ADK-123').
+        summary: The new summary (title) for the issue.
+        description: The new detailed description for the issue.
+        
+    Returns:
+        A success or error message.
+    """
+    print(f"[Tool Call] update_jira_issue: Atualizando issue '{issue_key}'...")
+    
+    fields_to_update = {}
+    if summary:
+        fields_to_update["summary"] = summary
+    if description:
+        fields_to_update["description"] = description
+        
+    if not fields_to_update:
+        return "Erro: Nenhum campo para atualizar foi fornecido. Você deve fornecer um 'summary' ou 'description'."
+
+    try:
+        client = JiraClient()
+        client.update_issue(issue_key, fields_to_update)
+        
+        success_message = f"Issue {issue_key} foi atualizado com sucesso."
+        print(f"    [Tool Success] {success_message}")
+        return success_message
+        
+    except ValueError as e:
+        error_message = f"Erro de configuração: {e}"
+        print(f"    [Tool Error] {error_message}")
+        return error_message
+        
+    except requests.exceptions.RequestException as e:
+        error_response_text = "Nenhuma resposta detalhada recebida."
+        
+        if hasattr(e, 'response') and e.response is not None:
+            try:
+                error_response_text = json.dumps(
+                    e.response.json(), 
+                    indent=4, 
+                    ensure_ascii=False
+                )
+            except json.JSONDecodeError:
+                error_response_text = e.response.text
+        
+        error_message = f"Erro ao chamar a API do Jira: {e}. Resposta detalhada:\n{error_response_text}"
+        print(f"    [Tool Error] {error_message}")
+        return error_message
+        
+    except Exception as e:
+        error_message = f"Erro inesperado: {e}"
+        print(f"    [Tool Error] {error_message}")
+        return error_message
