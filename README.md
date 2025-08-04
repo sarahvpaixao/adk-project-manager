@@ -2,6 +2,9 @@
 
 Este projeto implementa um sistema de agentes para automação de tarefas de gerenciamento de projetos no Jira. Ele utiliza uma arquitetura com um agente raiz que coordena subagentes especializados em criar épicos, tarefas e gerar relatórios.
 
+Demonstração
+![Demonstração do Agente] PM-Test GIF.gif
+
 ## Visão Geral da Arquitetura
 
 O sistema é composto por um `root_agent` que, com base na solicitação do usuário, delega as tarefas para os seguintes subagentes:
