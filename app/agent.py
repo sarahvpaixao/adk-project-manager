@@ -1,4 +1,5 @@
 import os
+import google.auth
 from google.adk.agents import Agent
 
 from app.instructions import ROOT_INSTRUCTIONS
